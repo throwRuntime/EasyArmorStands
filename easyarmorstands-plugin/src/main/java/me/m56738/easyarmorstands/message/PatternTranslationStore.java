@@ -5,6 +5,7 @@ import me.m56738.easyarmorstands.lib.kyori.adventure.key.Key;
 import me.m56738.easyarmorstands.lib.kyori.adventure.text.Component;
 import me.m56738.easyarmorstands.lib.kyori.adventure.text.TextComponent;
 import me.m56738.easyarmorstands.lib.kyori.adventure.text.TranslatableComponent;
+import me.m56738.easyarmorstands.lib.kyori.adventure.text.minimessage.MiniMessage;
 import me.m56738.easyarmorstands.lib.kyori.adventure.translation.AbstractTranslationStore;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +26,7 @@ import java.util.regex.Pattern;
 @NotNullByDefault
 public class PatternTranslationStore extends AbstractTranslationStore<String> {
     private static final Pattern ARGUMENT_PATTERN = Pattern.compile("%((\\d+)\\$)?s");
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public PatternTranslationStore(Key name) {
         super(name);
@@ -61,32 +63,44 @@ public class PatternTranslationStore extends AbstractTranslationStore<String> {
         if (pattern == null) {
             return null;
         }
+
+        // If there are no arguments, just parse it as a MiniMessage.
+        if (component.arguments().isEmpty()) {
+            return miniMessage.deserialize(pattern)
+                    .append(component.children())
+                    .style(component.style())
+                    .compact();
+        }
+
+        // If there are arguments, substitute them
         TextComponent.Builder builder = Component.text();
         Matcher matcher = ARGUMENT_PATTERN.matcher(pattern);
         IndexParser indexParser = new IndexParser();
         int lastEnd = 0;
+        
         while (matcher.find()) {
-            // text before match
+            // Text before the placeholder - parsing as MiniMessage
             String before = pattern.substring(lastEnd, matcher.start());
             if (!before.isEmpty()) {
-                builder.append(Component.text(before));
+                builder.append(miniMessage.deserialize(before));
             }
 
-            // value of match
+            // Substituting the argument
             int index = indexParser.parseIndex(matcher.group(2));
             if (index >= 1 && index <= component.arguments().size()) {
                 builder.append(component.arguments().get(index - 1));
             } else {
+                // Если аргумент не найден, оставляем плейсхолдер как есть
                 builder.append(Component.text(matcher.group()));
             }
 
             lastEnd = matcher.end();
         }
 
-        // text after last match
+        // Text after the last placeholder - parsing as MiniMessage
         String tail = pattern.substring(lastEnd);
         if (!tail.isEmpty()) {
-            builder.append(Component.text(tail));
+            builder.append(miniMessage.deserialize(tail));
         }
 
         return builder.append(component.children()).style(component.style()).build().compact();

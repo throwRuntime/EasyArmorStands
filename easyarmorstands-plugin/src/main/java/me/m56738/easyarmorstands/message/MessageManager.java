@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -65,21 +66,19 @@ public class MessageManager {
             plugin.getLogger().log(Level.SEVERE, "Failed to convert old message files", e);
         }
 
+        // Export default locales if lang folder is empty or doesn't exist
+        try {
+            exportDefaultLocalesIfNeeded(langPath);
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to export default locale files", e);
+        }
+
         // Load custom locales
         try (Stream<Path> paths = Files.list(langPath)) {
-            paths.forEach(this::load);
+            paths.forEach(this::loadCustomLocale);
         } catch (NoSuchFileException ignored) {
         } catch (IOException e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to load messages", e);
-        }
-
-        // Load included default locales
-        try {
-            loadDefaultLocale(new Locale("en", "us"));
-            loadDefaultLocale(new Locale("de", "de"));
-            loadDefaultLocale(new Locale("ru", "ru"));
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Failed to load default messages", e);
         }
 
         if (config.message.serverSideTranslation) {
@@ -87,19 +86,45 @@ public class MessageManager {
         }
     }
 
-    private void loadDefaultLocale(Locale locale) throws IOException {
-        if (loadedLocales.add(locale)) {
-            String name = "/assets/easyarmorstands/lang/" + locale.toString().toLowerCase(Locale.ROOT) + ".json";
-            InputStream resource = getClass().getResourceAsStream(name);
-            if (resource != null) {
-                registry.readLocale(resource, locale);
+    private void exportDefaultLocalesIfNeeded(Path langPath) throws IOException {
+        // Check if lang folder exists and has any .json files
+        boolean needsExport = false;
+        
+        if (!Files.exists(langPath)) {
+            Files.createDirectories(langPath);
+            needsExport = true;
+        } else {
+            try (Stream<Path> paths = Files.list(langPath)) {
+                needsExport = paths.noneMatch(path -> path.getFileName().toString().endsWith(".json"));
+            }
+        }
+
+        if (needsExport) {
+            exportDefaultLocale(langPath, "en_us");
+            exportDefaultLocale(langPath, "de_de");
+            exportDefaultLocale(langPath, "ru_ru");
+            plugin.getLogger().info("Exported default locale files to lang folder");
+        }
+    }
+
+    private void exportDefaultLocale(Path langPath, String localeName) throws IOException {
+        String resourcePath = "/assets/easyarmorstands/lang/" + localeName + ".json";
+        Path targetPath = langPath.resolve(localeName + ".json");
+        
+        if (Files.exists(targetPath)) {
+            return; // Don't overwrite existing files
+        }
+
+        try (InputStream input = getClass().getResourceAsStream(resourcePath)) {
+            if (input != null) {
+                Files.copy(input, targetPath, StandardCopyOption.REPLACE_EXISTING);
             } else {
-                plugin.getLogger().warning("Default messages for locale " + locale + " are missing: " + name);
+                plugin.getLogger().warning("Default locale resource not found: " + resourcePath);
             }
         }
     }
 
-    private void load(Path path) {
+    private void loadCustomLocale(Path path) {
         Matcher matcher = PATTERN.matcher(path.getFileName().toString());
         if (!matcher.matches()) {
             return;
