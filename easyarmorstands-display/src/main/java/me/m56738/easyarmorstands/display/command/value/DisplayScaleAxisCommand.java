@@ -20,7 +20,7 @@ public class DisplayScaleAxisCommand extends ScaleAxisCommand {
 
     @Override
     public @NotNull String formatCommand(@NotNull Float value) {
-        return "/eas scale " + axisName + " " + value;
+        return "/armorstands scale " + axisName + " " + value;
     }
 
     @Override

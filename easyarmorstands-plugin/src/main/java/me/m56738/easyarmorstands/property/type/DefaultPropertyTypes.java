@@ -23,7 +23,7 @@ public class DefaultPropertyTypes {
         registry.register(new BooleanTogglePropertyType(key("armor_stand/marker")));
         registry.register(new EnumTogglePropertyType<>(key("armor_stand/size"), ArmorStandSize.class));
         registry.register(new BooleanTogglePropertyType(key("entity/ai")));
-        registry.register(new OptionalComponentPropertyType(key("entity/custom_name"), "/eas name set"));
+        registry.register(new OptionalComponentPropertyType(key("entity/custom_name"), "/armorstands name set"));
         registry.register(new BooleanPropertyType(key("entity/custom_name/visible")));
         registry.register(new BooleanTogglePropertyType(key("entity/glowing")));
         registry.register(new LocationPropertyType(key("entity/location")));
@@ -34,7 +34,7 @@ public class DefaultPropertyTypes {
         registry.register(new EnumTogglePropertyType<>(key("mannequin/main_hand"), Hand.class));
         registry.register(new ProfilePropertyType(key("mannequin/profile")));
         registry.register(new BooleanTogglePropertyType(key("mannequin/immovable")));
-        registry.register(new OptionalComponentPropertyType(key("mannequin/description"), "/eas description set"));
+        registry.register(new OptionalComponentPropertyType(key("mannequin/description"), "/armorstands description set"));
         for (SkinPart part : SkinPart.values()) {
             String name = part.name().toLowerCase(Locale.ROOT);
             registry.register(new BooleanTogglePropertyType(key("mannequin/part/" + name + "/visible")));

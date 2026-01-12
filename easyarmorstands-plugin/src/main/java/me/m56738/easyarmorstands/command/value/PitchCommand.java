@@ -70,7 +70,7 @@ public class PitchCommand implements ValueCommand<Float> {
 
     @Override
     public @NotNull String formatCommand(@NotNull Float value) {
-        return "/eas pitch " + value;
+        return "/armorstands pitch " + value;
     }
 
     @Override

@@ -70,7 +70,7 @@ public class YawCommand implements ValueCommand<Float> {
 
     @Override
     public @NotNull String formatCommand(@NotNull Float value) {
-        return "/eas yaw " + value;
+        return "/armorstands yaw " + value;
     }
 
     @Override

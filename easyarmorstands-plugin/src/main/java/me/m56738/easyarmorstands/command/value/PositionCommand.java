@@ -50,7 +50,7 @@ public class PositionCommand extends PropertyCommand<Location> {
 
     @Override
     public @NotNull String formatCommand(@NotNull Location value) {
-        return "/eas position " + value.getX() + " " + value.getY() + " " + value.getZ();
+        return "/armorstands position " + value.getX() + " " + value.getY() + " " + value.getZ();
     }
 
     @Override

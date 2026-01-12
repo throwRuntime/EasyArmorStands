@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Command("eas")
+@Command("armorstands")
 public class GlobalCommands {
     private final CommandManager<EasCommandSender> commandManager;
     private final MinecraftHelp<EasCommandSender> help;
@@ -41,24 +41,17 @@ public class GlobalCommands {
 
     public GlobalCommands(CommandManager<EasCommandSender> commandManager, SessionListener sessionListener) {
         this.commandManager = commandManager;
-        this.help = MinecraftHelp.createNative("/eas help", commandManager);
+        this.help = MinecraftHelp.createNative("/armorstands help", commandManager);
         this.sessionListener = sessionListener;
     }
 
     @Command("")
-    @Permission(Permissions.HELP)
-    @CommandDescription("easyarmorstands.command.description")
-    public void showOverview(EasCommandSender sender) {
-        if (sender.get().hasPermission(Permissions.VERSION)) {
-            String version = EasyArmorStandsPlugin.getInstance().getDescription().getVersion();
-            sender.sendMessage(Component.text("EasyArmorStands v" + version, NamedTextColor.GOLD));
-        } else {
-            sender.sendMessage(Component.text("EasyArmorStands", NamedTextColor.GOLD));
-        }
-        if (sender.get().hasPermission(Permissions.GIVE)) {
-            sender.sendMessage(Message.hint("easyarmorstands.hint.give-tool", Message.command("/eas give")));
-        }
-        sender.sendMessage(Message.hint("easyarmorstands.hint.show-help", Message.command("/eas help")));
+    @Permission(Permissions.GIVE)
+    @CommandDescription("easyarmorstands.command.description.give")
+    public void give(EasPlayer sender) {
+        sender.get().getInventory().addItem(EasyArmorStandsPlugin.getInstance().createTool(sender.locale()));
+        sender.sendMessage(Message.success("easyarmorstands.success.added-tool-to-inventory"));
+        sessionListener.updateHeldItem(sender.get());
     }
 
     @Command("help [query]")
@@ -74,15 +67,6 @@ public class GlobalCommands {
         return commandManager.createHelpHandler().queryRootIndex(ctx.sender()).entries().stream()
                 .map(CommandEntry::syntax)
                 .collect(Collectors.toList());
-    }
-
-    @Command("give")
-    @Permission(Permissions.GIVE)
-    @CommandDescription("easyarmorstands.command.description.give")
-    public void give(EasPlayer sender) {
-        sender.get().getInventory().addItem(EasyArmorStandsPlugin.getInstance().createTool(sender.locale()));
-        sender.sendMessage(Message.success("easyarmorstands.success.added-tool-to-inventory"));
-        sessionListener.updateHeldItem(sender.get());
     }
 
     @Command("reload")

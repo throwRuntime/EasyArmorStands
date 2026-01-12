@@ -16,7 +16,7 @@ import me.m56738.easyarmorstands.permission.Permissions;
 
 import java.util.Iterator;
 
-@Command("eas")
+@Command("armorstands")
 public class HistoryCommands {
     @Command("history")
     @Permission(Permissions.HISTORY)

@@ -75,7 +75,7 @@ import java.util.TreeSet;
 
 import static me.m56738.easyarmorstands.command.processor.ElementSelectionProcessor.elementSelectionKey;
 
-@Command("eas")
+@Command("armorstands")
 public class SessionCommands {
     public static void showText(Audience audience, Component type, @Nullable Component text, String command) {
         String serialized = MiniMessage.miniMessage().serializeOr(text, "");
@@ -311,7 +311,7 @@ public class SessionCommands {
             return;
         }
         Component text = property.getValue().orElse(null);
-        showText(sender, EntityPropertyTypes.CUSTOM_NAME.getName(), text, "/eas name set");
+        showText(sender, EntityPropertyTypes.CUSTOM_NAME.getName(), text, "/armorstands name set");
     }
 
     @Command("name set <value>")
@@ -392,7 +392,7 @@ public class SessionCommands {
             return;
         }
         Component text = property.getValue().orElse(null);
-        showText(sender, MannequinPropertyTypes.DESCRIPTION.getName(), text, "/eas description set");
+        showText(sender, MannequinPropertyTypes.DESCRIPTION.getName(), text, "/armorstands description set");
     }
 
     @Command("description set <value>")

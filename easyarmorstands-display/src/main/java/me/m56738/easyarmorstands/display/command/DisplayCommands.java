@@ -70,7 +70,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Command("eas")
+@Command("armorstands")
 public class DisplayCommands {
     private final DisplayAddon addon;
 
@@ -292,7 +292,7 @@ public class DisplayCommands {
             return;
         }
         Component text = property.getValue();
-        SessionCommands.showText(sender, TextDisplayPropertyTypes.TEXT.getName(), text, "/eas text set");
+        SessionCommands.showText(sender, TextDisplayPropertyTypes.TEXT.getName(), text, "/armorstands text set");
     }
 
     @Command("text set <value>")

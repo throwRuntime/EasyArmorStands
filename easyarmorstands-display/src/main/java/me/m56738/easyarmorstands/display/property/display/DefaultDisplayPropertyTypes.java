@@ -40,7 +40,7 @@ public class DefaultDisplayPropertyTypes {
         registry.register(new IntegerPropertyType(key("text_display/line_width")));
         registry.register(new BooleanTogglePropertyType(key("text_display/see_through")));
         registry.register(new BooleanTogglePropertyType(key("text_display/shadow")));
-        registry.register(new ComponentPropertyType(key("text_display/text"), "/eas text set"));
+        registry.register(new ComponentPropertyType(key("text_display/text"), "/armorstands text set"));
     }
 
     private static Key key(@KeyPattern.Value String name) {

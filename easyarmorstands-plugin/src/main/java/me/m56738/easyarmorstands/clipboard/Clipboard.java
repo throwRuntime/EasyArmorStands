@@ -39,7 +39,7 @@ public class Clipboard {
 
         if (copier.getSuccessCount() > 0) {
             player.sendMessage(Message.hint("easyarmorstands.hint.clipboard-auto-applied"));
-            player.sendMessage(Message.hint("easyarmorstands.hint.clear-clipboard", Message.command("/eas clipboard clear")));
+            player.sendMessage(Message.hint("easyarmorstands.hint.clear-clipboard", Message.command("/armorstands clipboard clear")));
         }
     }
 

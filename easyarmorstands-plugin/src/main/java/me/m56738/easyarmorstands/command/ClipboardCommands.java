@@ -18,7 +18,7 @@ import me.m56738.easyarmorstands.message.Message;
 import me.m56738.easyarmorstands.permission.Permissions;
 import me.m56738.easyarmorstands.util.PropertyCopier;
 
-@Command("eas")
+@Command("armorstands")
 public class ClipboardCommands {
     @Command("clipboard")
     @Permission(Permissions.CLIPBOARD)
@@ -33,8 +33,8 @@ public class ClipboardCommands {
                 .content("* ")
                 .color(NamedTextColor.GRAY)
                 .append(describeProperty(property))));
-        sender.sendMessage(Message.hint("easyarmorstands.hint.paste-clipboard", Message.command("/eas paste")));
-        sender.sendMessage(Message.hint("easyarmorstands.hint.clear-clipboard", Message.command("/eas clipboard clear")));
+        sender.sendMessage(Message.hint("easyarmorstands.hint.paste-clipboard", Message.command("/armorstands paste")));
+        sender.sendMessage(Message.hint("easyarmorstands.hint.clear-clipboard", Message.command("/armorstands clipboard clear")));
     }
 
     private <T> Component describeProperty(Property<T> property) {
@@ -69,8 +69,8 @@ public class ClipboardCommands {
             }
         });
         sender.sendMessage(Message.success("easyarmorstands.success.clipboard-copied"));
-        sender.sendMessage(Message.hint("easyarmorstands.hint.show-clipboard", Message.command("/eas clipboard")));
-        sender.sendMessage(Message.hint("easyarmorstands.hint.paste-clipboard", Message.command("/eas paste")));
+        sender.sendMessage(Message.hint("easyarmorstands.hint.show-clipboard", Message.command("/armorstands clipboard")));
+        sender.sendMessage(Message.hint("easyarmorstands.hint.paste-clipboard", Message.command("/armorstands paste")));
     }
 
     private <T> void copyProperty(Clipboard clipboard, Property<T> property) {
@@ -85,7 +85,7 @@ public class ClipboardCommands {
         if (clipboard.getProperties().isEmpty()) {
             sender.sendMessage(Message.error("easyarmorstands.error.clipboard-empty"));
             sender.sendMessage(Message.hint("easyarmorstands.hint.copy-property"));
-            sender.sendMessage(Message.hint("easyarmorstands.hint.copy-all-properties", Message.command("/eas copy")));
+            sender.sendMessage(Message.hint("easyarmorstands.hint.copy-all-properties", Message.command("/armorstands copy")));
             return;
         }
 

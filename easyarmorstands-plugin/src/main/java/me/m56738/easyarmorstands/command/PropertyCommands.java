@@ -30,7 +30,7 @@ public final class PropertyCommands {
 
     public static <T> void register(CommandManager<EasCommandSender> commandManager, ValueCommand<T> valueCommand) {
         Permission permission = valueCommand.getPermission();
-        Command.Builder<EasCommandSender> builder = commandManager.commandBuilder("eas").apply(valueCommand);
+        Command.Builder<EasCommandSender> builder = commandManager.commandBuilder("armorstands").apply(valueCommand);
 
         commandManager.command(builder
                 .permission(permission)
