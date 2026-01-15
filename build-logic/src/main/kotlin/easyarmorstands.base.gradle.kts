@@ -13,6 +13,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://ci.mg-dev.eu/plugin/repository/everything/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://maven.playpro.com")
     maven("https://repo.glaremasters.me/repository/bloodshot/") {
         mavenContent {
             includeGroup("com.griefdefender")
